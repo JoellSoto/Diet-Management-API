@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<head>
+	<title>Pagina Inicial</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</head>
+
+<script src=
+"https://code.jquery.com/jquery-3.5.1.js">
+    </script>
+
+
+
+
+<style>
+        table {
+            margin: 50px;
+            margin-left: 180px;
+            font-size: large;
+            border: 1px solid black;
+        }
+  
+        h1 {
+            text-align: center;
+            color: #006600;
+            font-size: xx-large;
+            font-family: 'Gill Sans', 
+                'Gill Sans MT', ' Calibri', 
+                'Trebuchet MS', 'sans-serif';
+        }
+  
+        td {
+            background-color: #E4F5D4;
+            border: 1px solid black;
+        }
+  
+        th,
+        td {
+            font-weight: bold;
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+  
+        td {
+            font-weight: lighter;
+        }
+    </style>
+<body>
+      <div class="container">
+		<div class="row " style="height: 50px">
+			<div class="col-sm text-left  " >
+        		 Jessica Helena Marques 2016341
+        		 <br>
+        		 Melve Mavie 2013122
+             </div>
+		</div>
+    </div>
+
+   
+	<div class="container ">
+		
+   
+        <div class="row ">
+			     <div class="  w-100 p-3" style="background-color: #eee;">
+			      <p class="text-center">Individuos guardados no sistema
+	 		       <br>
+		           Base de Dados II 
+
+			     </div>
+		</div>	     
+	</div>
+
+
+	<div class="container text-center">
+	 	<div class="row text-center">
+	 			
+			    <table id='table'>
+           <!-- HEADING FORMATION -->
+            <tr>
+                <th>Codigo</th>
+                <th>nomes</th>
+                <th>Data Nascimento</th>
+                <th>numero de BI</th>
+                <th>Morada</th>
+                <th>data_chegada</th>
+                <th>data_partida</th>
+                <th>Tipo de Individuo</th>
+                <th>Salario</th>
+            </tr>
+            <script>
+
+            	let json;
+                fetch('http://127.0.0.1:8080/bd/getIndividuos', {
+			    method: 'GET',
+			    headers: {
+			        'Accept': 'application/json',
+			    },
+			})
+			.then(response => response.json())
+			.then(response => {console.log(response)})
+
+                $(document).ready(function () {
+  
+                    // FETCHING DATA FROM JSON FILE
+                    $.getJSON("http://127.0.0.1:8080/bd/getIndividuos", 
+                            function (data) {
+                        var student = '';
+                           
+                        // ITERATING THROUGH OBJECTS 
+                        $.each(data, function (key, value) {
+  
+                            //CONSTRUCTION OF ROWS HAVING
+                            // DATA FROM JSON OBJECT
+                            student += '<tr>';
+                            student += '<td>' + 
+                                value.cod + '</td>';
+  
+                            student += '<td>' + 
+                                value.nome + '</td>';
+  
+                            student += '<td>' + 
+                                value.data_nascimento + '</td>';
+  
+                            student += '<td>' + 
+                                value.numero_BI + '</td>';
+
+                            student += '<td>' + 
+                                value.morada + '</td>';    
+
+                            if(value.funcionario.length==0)  
+                               {if(value.hospede.length!=0)
+                               		student += '<td>' + 
+                                    value.hospede[0].data_chegada + '</td>'; 
+                               }
+
+
+
+                            else{
+                            	
+                                student += '<td>' + 
+                                  "N/A" + '</td>'; 
+                            }      
+
+
+                           
+                           if(value.funcionario.length==0)  
+                               {if(value.hospede.length!=0)
+                               		student += '<td>' + 
+                                    value.hospede[0].data_partida + '</td>'; 
+                               }
+
+
+
+                            else{
+                            	
+                                student += '<td>' + 
+                                  "N/A" + '</td>'; 
+                            }  
+
+
+
+                            if(value.funcionario.length==0)  
+                               {if(value.hospede.length!=0)
+                               		student += '<td>' + 
+                                    "Hospede"+ '</td>'; 
+                               }
+
+
+
+                            else{
+                            	
+                                student += '<td>' + 
+                                  "Funcionario" + '</td>'; 
+                            }      
+                            
+
+                            if(value.hospede.length==0)  
+                               {if(value.funcionario.length!=0)
+                               		student += '<td>' + 
+                                    value.funcionario[0].salario_base + '</td>'; 
+                               }
+
+
+
+                            else{
+                            	
+                                student += '<td>' + 
+                                  "N/A" + '</td>'; 
+                            } 
+
+
+                             student += '</tr>';
+
+                            
+                        });
+                          
+                        //INSERTING ROWS INTO TABLE 
+                        $('#table').append(student);
+                    });
+                });
+            </script>
+        <br>
+        <a href="NovoFuncionario.html" class="btn btn-primary" style="height: 40px">Registar novo Funcionario</a>
+        <a href="NovoHospede.html" class="btn btn-primary" style="height: 40px">Registar novo Hospede</a>
+        <a id="botaoA" href="index.html" class="btn btn-primary" style="height: 40px;margin-left:5px"> Apagar Tudo</a>
+
+        <script type="text/javascript">
+        	document.getElementById("botaoA").addEventListener("click", function(){
+        	 $(document).ready(function () {
+  
+                    // FETCHING DATA FROM JSON FILE
+                    $.getJSON("http://127.0.0.1:8080/bd/ApagarTodos", 
+                            function (data) {
+                                
+                    });
+                });
+        	});
+                    
+        </script>
+		</div>
+
+
+
+	
+
+</body>
+
+
+
+</html>
